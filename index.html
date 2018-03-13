@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/11/first/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/13/Cocoapods的使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dk">
@@ -282,7 +282,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/11/first/" itemprop="url">first</a></h1>
+                <a class="post-title-link" href="/2018/03/13/Cocoapods的使用/" itemprop="url">Cocoapods的使用</a></h1>
         
 
         <div class="post-meta">
@@ -294,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-11T10:19:27+08:00">
-                2018-02-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-13T11:18:30+08:00">
+                2018-03-13
               </time>
             
 
@@ -328,8 +328,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/实用技术/个人博客/" itemprop="url" rel="index">
-                    <span itemprop="name">个人博客</span>
+                  <a href="/categories/实用技术/iOS相关/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS相关</span>
                   </a>
                 </span>
 
@@ -367,9 +367,35 @@
       
         
           
-            <blockquote>
-<p>Hexo 是一个基于nodejs的静态博客网站生成器，作者是来自台湾的Tommy Chen</p>
-</blockquote>
+            <p>一、什么是CocoaPods</p>
+<p>1、为什么需要CocoaPods<br>在进行iOS开发的时候，总免不了使用第三方的开源库，比如SBJson、AFNetworking、Reachability等等。使用这些库的时候通常需要：</p>
+<pre><code>•    下载开源库的源代码并引入工程
+•    向工程中添加开源库使用到的framework
+•    解决开源库和开源库以及开源库和工程之间的依赖关系、检查重复添加的framework等问题
+•    如果开源库有更新的时候，还需要将工程中使用的开源库删除，重新执行前面的三个步骤，顿时头都大了。。。
+</code></pre><p>自从有了CocoaPods以后，这些繁杂的工作就不再需要我们亲力亲为了，只需要我们做好少量的配置工作，CocoaPods会为我们做好一切！<br>2、什么是CocoaPods<br>CocoaPods是一个用来帮助我们管理第三方依赖库的工具。它可以解决库与库之间的依赖关系，下载库的源代码，同时通过创建一个Xcode的workspace来将这些第三方库和我们的工程连接起来，供我们开发使用。<br>使用CocoaPods的目的是让我们能自动化的、集中的、直观的管理第三方开源库。</p>
+<p>二、安装CocoaPods<br>注意：在终端输入命令时，取$后面部分输入<br>1、升级Ruby环境<br>终端输入：gem update –system<br>此时会出现<br>没权限升级Ruby的提示<br>这是因为你没有权限去升级Ruby<br>这时应该输入：sudo gem update –system<br>此时会出现<br>输入密码<br>接下来输入密码，注意：输入密码的时候没有任何反应，光标也不会移动，你尽管输入就是了，输完了直接回车。<br>等一会如果出现</p>
+<p>升级Ruby成功<br>恭喜你，升级Ruby成功了。</p>
+<p>2、更换Ruby镜像<br>首先移除现有的Ruby镜像<br>终端输入：gem sources –remove <a href="https://rubygems.org/" target="_blank" rel="noopener">https://rubygems.org/</a><br>然后添加国内最新镜像源（淘宝的Ruby镜像已经不更新了）<br>终端输入：gem sources -a <a href="https://gems.ruby-china.org/" target="_blank" rel="noopener">https://gems.ruby-china.org/</a><br>更新Ruby，执行以下命令：<br>sudo gem update —system<br>执行完毕之后输入gem sources -l来查看当前镜像<br>终端输入：gem sources -l<br>如果结果是<br><strong><em> CURRENT SOURCES </em></strong><br><a href="https://gems.ruby-china.org/" target="_blank" rel="noopener">https://gems.ruby-china.org/</a><br>说明添加成功，否则继续执行 gem source -a <a href="https://gems.ruby-china.org/来添加" target="_blank" rel="noopener">https://gems.ruby-china.org/来添加</a><br>3、安装CocoaPods<br>接下来开始安装<br>终端输入：sudo gem install cocoapods<br>如果出现这个<br>安装错误提示</p>
+<p>说明没有权限，需要输入<br>终端输入：sudo gem install -n /usr/local/bin cocoapods<br>安装成功如下：<br>安装成功<br>到这之后再执行pod setup（PS：这个过程是漫长的，要有耐心）</p>
+<p>终端输入：pod setup<br>然后你会看到出现了Setting up CocoaPods master repo，卡住不动了，说明Cocoapods在将它的信息下载到 ~/.cocoapods里。<br>你可以command+n新建一个终端窗口，执行cd ~/.cocoapods/进入到该文件夹下，然后执行du -sh *来查看文件大小，每隔几分钟查看一次，这个目录最终大小是900多M（我的是930M）<br>当出现Setup completed的时候说明已经完成了。</p>
+<p>三、使用CocoaPods<br>CocoaPods的一切都是从一个名为Podfile（必须是这个名字）的文件开始的，我们需要先创建这个文件。<br>第一种方法：手动创建文件<br>在Xcode中手动创建一个空白文件，名字为Podfile，然后在里面添加信息<br>platform :ios, ‘7.0’ （指定平台以及最低版本）<br>pod ‘MBProgressHUD’, ‘~&gt; 0.8（指定第三方库以及版本）<br>第二种方法，命令行创建文件<br>a  新建一个项目，名字PodTest</p>
+<p>b  终端中，cd到项目总目录（注意：包含PodTest文件夹、PodTest.xcodeproj、PodTestTest的那个总目录）<br>c  建立Podfile（配置文件）<br>终端输入 vim Podfile，回车<br>键盘输入 i，进入编辑模式，输入<br>platform :ios, ‘7.0’<br>pod ‘MBProgressHUD’, ‘~&gt; 0.8’<br>然后按Esc，并且输入“ ：”号进入vim命令模式，然后在冒号后边输入wq</p>
+<p>注意：键盘输入 ：后，才能输入wq。回车后发现PodTest项目总目录中多一个Podfile文件</p>
+<p>安装命令，在终端中输入<br>pod install –verbose –no-repo-update</p>
+<p>在终端中，pod search + 第三方库的名称，，可以搜索对应的第三方库</p>
+<p>在引入依赖库时，需要显示或隐式注明引用的依赖库版本，具体写法和表示含义如下：</p>
+<pre><code>pod &apos;AFNetworking&apos;      //不显式指定依赖库版本，表示每次都获取最新版本 
+pod &apos;AFNetworking&apos;, &apos;2.0&apos;     //只使用2.0版本 
+pod &apos;AFNetworking&apos;, &apos;&gt; 2.0&apos;     //使用高于2.0的版本 
+pod &apos;AFNetworking&apos;, &apos;&gt;= 2.0&apos;     //使用大于或等于2.0的版本 
+pod &apos;AFNetworking&apos;, &apos;&lt; 2.0&apos;     //使用小于2.0的版本 
+pod &apos;AFNetworking&apos;, &apos;&lt;= 2.0&apos;     //使用小于或等于2.0的版本 
+pod &apos;AFNetworking&apos;, &apos;~&gt; 0.1.2&apos;     //使用大于等于0.1.2但小于0.2的版本 
+pod &apos;AFNetworking&apos;, &apos;~&gt;0.1&apos;     //使用大于等于0.1但小于1.0的版本 
+pod &apos;AFNetworking&apos;, &apos;~&gt;0&apos;     //高于0的版本，写这个限制和什么都不写是一个效果，都表示使用最新版本
+</code></pre><p>Podfile.lock文件最大得用处在于多人开发。对于没有在Podfile中指定Pods依赖库版本的写法，如下：<br>pod JSONKIT<br>该句话用于获取当前SBJson这个Pods依赖库的最新版本。<br>当团队中的某个人执行完pod install命令后，生成的Podfile.lock文件就记录下了当时最新Pods依赖库的版本，这时团队中的其它人check下来这份包含Podfile.lock文件的工程以后，再去执行pod install命令时，获取下来的Pods依赖库的版本就和最开始用户获取到的版本一致。如果没有Podfile.lock文件，后续所有用户执行pod install命令都会获取最新版本的SBJson，这就有可能造成同一个团队使用的依赖库版本不一致， 这对团队协作来说绝对是个灾难！</p>
+<p>platform那一行，ios三个字母都要小写，而且与前面的冒号之间不能有间隔，后面的版本号也可以不写，但是有些开源库对版本是有要求的，比如要在6.0以上才能运行，遇到这样的开源库就需要写上版本号。</p>
 
           
         
